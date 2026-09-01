@@ -11,7 +11,6 @@
     --canvas:#f2e9d8;
     --awning-a:#b5482f;
     --awning-b:#f2e9d8;
-    --awning-dark:#953b26;
     --ink:#241a12;
     --ink-soft:#3a2f22;
     --olive:#5c6b3f;
@@ -29,20 +28,17 @@
     min-height:100vh;
   }
   h1,h2,h3,.display{ font-family:'Fraunces', serif; }
-  button{ font-family:inherit; }
-  a{ color:inherit; }
+  button, input, select, textarea{ font-family:inherit; color:inherit; }
+  button{ cursor:pointer; }
+  img{ max-width:100%; display:block; }
   @media (prefers-reduced-motion: reduce){
     *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
   }
   :focus-visible{ outline:2px solid var(--mustard); outline-offset:2px; }
 
-  /* shared icon sprite */
   .icon{ width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex:none; }
 
-  /* ================= LOGIN — portal do parceiro ================= */
-  .login-screen.hidden{ display:none; }
-
-  .brand-header{
+  header.top{
     position:relative;
     overflow:hidden;
     background: repeating-linear-gradient(
@@ -50,248 +46,283 @@
       var(--awning-a) 0px, var(--awning-a) 40px,
       var(--awning-b) 40px, var(--awning-b) 80px
     );
-    padding: 30px 24px 38px;
+    padding: 28px 24px 40px;
     text-align:center;
     border-bottom: 6px solid var(--ink);
   }
-  .brand-header::after{
+  header.top::after{
     content:"";
-    position:absolute; left:0; right:0; bottom:-2px; height:22px;
-    background: radial-gradient(circle at 20px 0, transparent 16px, var(--canvas) 17px) repeat-x;
-    background-size:40px 22px;
+    position:absolute; left:0; right:0; bottom:-2px; height:26px;
+    background: radial-gradient(circle at 20px 0, transparent 18px, var(--canvas) 19px) repeat-x;
+    background-size:40px 26px;
   }
-  .brand-header .brandmark{
-    display:inline-flex; align-items:center; gap:9px;
-    color:#fff; font-weight:700; font-size:14px; letter-spacing:.02em;
-    background:rgba(20,14,8,.42); padding:7px 16px 7px 10px; border-radius:999px;
-    margin-bottom:18px;
+  header.top .eyebrow{
+    display:inline-block;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#fff;
+    background:var(--ink);
+    padding:6px 14px;
+    border-radius:2px;
+    margin-bottom:14px;
   }
-  .brand-header .brandmark .sq{
-    width:24px; height:24px; border-radius:6px; background:var(--mustard);
+  header.top .title-block{
+    display:inline-block;
+    background:rgba(20,14,8,.42);
+    border-radius:16px;
+    padding:14px 28px 18px;
+  }
+  header.top h1{
+    color:#fff;
+    font-size:clamp(32px,6vw,64px);
+    font-weight:700;
+    text-shadow: 3px 3px 0 var(--ink), 0 0 18px rgba(0,0,0,.5);
+    line-height:1;
+  }
+  header.top p{
+    color:#fff;
+    max-width:480px;
+    margin:12px auto 0;
+    font-size:15px;
+    font-weight:600;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.6), 0 0 10px rgba(0,0,0,.4);
+  }
+  .header-actions{
+    position:absolute;
+    top:16px; right:16px;
+    z-index:5;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .user-chip{
+    font-weight:700;
+    font-size:13px;
+    background:#fff;
+    color:var(--ink);
+    padding:6px 8px 6px 12px;
+    border-radius:999px;
+    display:flex; align-items:center; gap:8px;
+    border:2px solid var(--ink);
+  }
+  .user-chip .avatar{
+    width:26px; height:26px; border-radius:50%;
+    background:var(--olive); color:#fff;
     display:flex; align-items:center; justify-content:center;
-    font-family:'Fraunces',serif; font-weight:700; color:var(--ink); font-size:13px;
+    font-size:12px;
   }
-  .brand-header .eyebrow{
-    display:inline-block; font-size:12px; letter-spacing:.14em; text-transform:uppercase;
-    color:#fff; background:var(--ink); padding:5px 13px; border-radius:2px; margin-bottom:14px;
-  }
-  .brand-header h1{
-    color:#fff; font-size:clamp(28px,5vw,44px); font-weight:700; line-height:1.1;
-    text-shadow: 3px 3px 0 var(--ink), 0 0 18px rgba(0,0,0,.4);
-  }
-  .brand-header p{
-    color:#fff; max-width:420px; margin:12px auto 0; font-size:14.5px; font-weight:600;
-    text-shadow: 1px 1px 0 rgba(0,0,0,.6), 0 0 10px rgba(0,0,0,.35);
+  .user-chip button{
+    border:none; background:var(--ink); color:#fff;
+    font-size:11px; font-weight:700;
+    padding:6px 10px; border-radius:999px;
   }
 
-  .lp-body{ display:flex; justify-content:center; padding:44px 20px 60px; }
+  .login-wrap{ display:block; }
+  .login-wrap.hidden{ display:none; }
+  .lp-body{ display:flex; justify-content:center; padding:36px 20px 70px; }
+
   .auth-panel{
-    background:var(--card); width:100%; max-width:400px;
-    border:2px solid var(--ink); border-radius:14px;
+    background:var(--card);
+    width:100%;
+    max-width:400px;
+    border:2px solid var(--ink);
+    border-radius:14px;
     box-shadow:10px 10px 0 rgba(0,0,0,.18);
-    padding:30px 28px 28px;
-    animation: rise .3s ease;
+    padding:28px 26px 26px;
+    animation: rise .25s ease;
   }
-  @keyframes rise{ from{ transform:translateY(14px); opacity:0;} to{ transform:translateY(0); opacity:1;} }
-
+  @keyframes rise{ from{ transform:translateY(16px); opacity:0;} to{ transform:translateY(0); opacity:1;} }
   .auth-panel .top-tag{ font-size:12px; font-weight:700; color:var(--muted); letter-spacing:.03em; margin-bottom:6px; }
-  .auth-panel h2{ font-size:25px; margin-bottom:5px; }
-  .auth-panel .sub{ font-size:13.5px; color:var(--muted); margin-bottom:24px; }
-
-  .auth-tabs{ display:flex; gap:8px; margin-bottom:24px; }
+  .auth-panel h2{ font-size:26px; margin-bottom:4px; }
+  .auth-panel .sub{ font-size:13.5px; color:var(--muted); margin-bottom:20px; }
+  .auth-tabs{ display:flex; gap:8px; margin-bottom:20px; }
   .auth-tabs button{
-    flex:1; padding:9px; border-radius:999px; border:2px solid var(--ink);
-    background:var(--card); font-family:'Space Grotesk',sans-serif; font-weight:700;
-    font-size:13px; cursor:pointer; color:var(--ink); transition:background .15s ease, color .15s ease;
+    flex:1; padding:8px; border-radius:999px; border:2px solid var(--ink);
+    background:var(--card); font-weight:700; font-size:13px;
   }
   .auth-tabs button.active{ background:var(--olive); color:#fff; border-color:var(--olive); }
 
-  .field{ margin-bottom:15px; }
-  .field label{
+  .field{ margin-bottom:14px; }
+  .field label, .add-tag label, .profile-form label{
     display:block; font-size:12px; font-weight:700; text-transform:uppercase;
     letter-spacing:.05em; color:var(--label); margin-bottom:6px;
   }
-  .field .input-wrap{ position:relative; }
-  .field input, .field select{
+  .field input, .field select, .add-tag input, .add-tag textarea,
+  .profile-form input, .profile-form textarea, .profile-form select, .modal textarea{
     width:100%; border:2px solid var(--ink); border-radius:8px;
-    padding:11px 13px; font-family:'Space Grotesk',sans-serif; font-size:14px;
-    background:#fffefb; color:var(--ink);
+    padding:10px 12px; font-size:14px; background:#fffefb;
   }
-  .field .input-wrap input{ padding-right:42px; }
-  .field input:focus, .field select:focus{ outline:2px solid var(--mustard); }
-  .field .toggle-eye{
+  .field input:focus, .field select:focus, .add-tag input:focus,
+  .add-tag textarea:focus, .profile-form input:focus,
+  .profile-form textarea:focus, .profile-form select:focus, .modal textarea:focus{
+    outline:2px solid var(--mustard);
+  }
+  .input-wrap{ position:relative; }
+  .input-wrap input{ padding-right:42px; }
+  .toggle-eye{
     position:absolute; right:10px; top:50%; transform:translateY(-50%);
-    background:none; border:none; cursor:pointer; color:var(--muted); padding:4px;
-    display:flex;
+    background:none; border:none; color:var(--muted); padding:4px; display:flex;
   }
-  .field .toggle-eye:hover{ color:var(--ink); }
-  .field-error{ font-size:12px; color:var(--awning-a); margin-top:6px; display:none; font-weight:600; }
+  .toggle-eye:hover{ color:var(--ink); }
+  .field-error{ font-size:12.5px; color:var(--awning-a); margin:-4px 0 12px; display:none; font-weight:700; }
   .field-error.show{ display:block; }
-
-  .row-between{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; gap:10px; flex-wrap:wrap; }
+  .row-between{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; gap:10px; flex-wrap:wrap; }
   .remember{ display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--muted); }
   .remember input{ width:15px; height:15px; accent-color:var(--olive); }
-  .forgot-link{ font-size:12.5px; font-weight:700; color:var(--awning-a); background:none; border:none; cursor:pointer; }
-
-  .auth-submit{
-    width:100%; border:2px solid var(--ink); border-radius:999px; padding:13px;
-    background:var(--ink); color:#fff; font-weight:700; font-size:14.5px; cursor:pointer;
-    transition: background .15s ease;
+  .forgot-link{
+    font-size:12.5px; font-weight:700; color:var(--awning-a); background:none; border:none;
   }
-  .auth-submit:hover{ background:var(--ink-soft); }
-
+  .auth-submit, .btn-ink, .add-submit, .profile-save, .order-action{
+    border:2px solid var(--ink); border-radius:999px; padding:12px 18px;
+    background:var(--ink); color:#fff; font-weight:700; font-size:14px;
+  }
+  .auth-submit{ width:100%; }
+  .auth-submit:hover, .btn-ink:hover, .add-submit:hover, .profile-save:hover, .order-action:hover{ background:var(--ink-soft); }
+  .btn-ghost{
+    border:2px solid var(--ink); background:var(--card); color:var(--ink);
+    border-radius:999px; padding:12px 18px; font-weight:700; font-size:13.5px;
+  }
+  .btn-ghost:hover{ background:#efe6d2; }
   .lp-note{
-    margin-top:18px; font-size:12px; color:var(--label); line-height:1.5;
+    margin-top:16px; font-size:12px; color:var(--label); line-height:1.5;
     background:#f4ecd8; border:1px solid #e3d4ab; border-radius:9px; padding:11px 13px;
   }
-  .lp-note b{ color:var(--ink); }
-
-  .forgot-msg{ font-size:12.5px; color:var(--olive); font-weight:700; margin:-8px 0 16px; display:none; }
+  .forgot-msg{ font-size:12.5px; color:var(--olive); font-weight:700; margin:-6px 0 14px; display:none; }
   .forgot-msg.show{ display:block; }
 
-  /* ================= APP SHELL ================= */
-  .app{ display:none; min-height:100vh; }
-  .app.open{ display:flex; }
+  .app{ display:none; }
+  .app.open{ display:block; }
+  .app-nav{
+    max-width:1080px;
+    margin:28px auto 0;
+    padding:0 24px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .app-nav button{
+    font-weight:500;
+    font-size:14px;
+    border:2px solid var(--ink);
+    background:var(--card);
+    padding:8px 18px;
+    border-radius:999px;
+    display:flex; align-items:center; gap:8px;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .app-nav button:hover{ transform:translateY(-2px); }
+  .app-nav button.active{
+    background:var(--olive);
+    color:#fff;
+    border-color:var(--olive);
+    font-weight:700;
+  }
 
-  .sidebar{
-    width:224px; flex:none;
-    background:var(--ink); color:#f3ead6;
-    display:flex; flex-direction:column;
-    padding:24px 0 18px;
-    border-right:1px solid rgba(255,255,255,.08);
+  main.workspace{
+    max-width:1080px;
+    margin:28px auto 80px;
+    padding:0 24px;
   }
-  .sidebar .brand{
-    padding:0 22px 20px;
-    border-bottom:1px solid rgba(255,255,255,.14);
-    margin-bottom:16px;
-    display:flex; align-items:center; gap:10px;
-  }
-  .sidebar .brand .sq{
-    width:30px; height:30px; border-radius:7px; background:var(--mustard);
-    display:flex; align-items:center; justify-content:center; flex:none;
-    font-family:'Fraunces',serif; font-weight:700; color:var(--ink); font-size:16px;
-  }
-  .sidebar .brand .brand-text .eyebrow{
-    font-size:10px; letter-spacing:.1em; text-transform:uppercase; opacity:.6;
-  }
-  .sidebar .brand .brand-text h2{ font-size:17px; color:#fff; line-height:1.2; }
-  .sidebar .stallname{
-    padding:0 22px; font-size:12.5px; opacity:.78; margin-bottom:18px; line-height:1.4;
-  }
-
-  .navlist{ display:flex; flex-direction:column; gap:3px; padding:0 12px; }
-  .navlist button{
-    display:flex; align-items:center; gap:11px;
-    text-align:left; width:100%;
-    background:transparent; border:none; color:#f3ead6;
-    padding:11px 13px; border-radius:8px; cursor:pointer;
-    font-size:14px; font-weight:500;
-    transition: background .15s ease;
-  }
-  .navlist button:hover{ background:rgba(255,255,255,.08); }
-  .navlist button.active{ background:var(--mustard); color:var(--ink); font-weight:700; }
-
-  .sidebar-foot{ margin-top:auto; padding:18px 20px 0; border-top:1px solid rgba(255,255,255,.14); }
-  .sidebar-foot button{
-    width:100%; display:flex; align-items:center; justify-content:center; gap:8px;
-    background:transparent; border:1.5px solid rgba(255,255,255,.32);
-    color:#f3ead6; padding:9px; border-radius:999px; font-size:12.5px; font-weight:700;
-    cursor:pointer; transition: background .15s ease;
-  }
-  .sidebar-foot button:hover{ background:rgba(255,255,255,.1); }
-
-  .main{ flex:1; min-width:0; padding:32px 36px 60px; max-width:980px; }
   .topline{
-    display:flex; justify-content:space-between; align-items:flex-start;
-    margin-bottom:28px; flex-wrap:wrap; gap:14px;
+    display:flex; justify-content:space-between; align-items:flex-end;
+    margin-bottom:22px; flex-wrap:wrap; gap:12px;
   }
-  .topline h1{ font-size:29px; }
-  .topline .sub{ font-size:13.5px; color:var(--muted); margin-top:4px; }
+  .topline h1{ font-size:clamp(26px,4vw,34px); }
+  .topline .sub{ font-size:14px; color:var(--muted); margin-top:4px; }
   .today-badge{
-    font-size:12px; font-weight:700; color:var(--ink);
+    font-size:12px; font-weight:700;
     background:#fff; border:2px solid var(--ink); border-radius:999px;
     padding:7px 15px;
   }
 
   .crates{
     display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-    gap:14px; margin-bottom:32px;
+    gap:14px; margin-bottom:28px;
   }
   .crate{
     border:2px solid var(--ink); border-radius:10px;
     background:var(--card); padding:16px 18px;
     box-shadow:5px 5px 0 var(--line);
   }
-  .crate .num{ font-family:'Fraunces',serif; font-size:32px; line-height:1; }
+  .crate .num{ font-family:'Fraunces',serif; font-size:30px; line-height:1; }
   .crate .num.accent{ color:var(--awning-a); }
   .crate .label{ font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-top:6px; }
 
   .section-title{
-    font-size:20px; margin-bottom:14px; padding-bottom:8px;
+    font-size:20px; margin-bottom:14px; padding-bottom:6px;
     border-bottom:3px solid var(--ink);
+    font-family:'Fraunces', serif;
   }
+  .toolbar{
+    display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; align-items:center;
+  }
+  .chip{
+    border:2px solid var(--ink); background:var(--card); border-radius:999px;
+    padding:6px 12px; font-size:12.5px; font-weight:700;
+  }
+  .chip.active{ background:var(--ink); color:#fff; }
+  .search-mini{
+    display:flex; align-items:center; gap:8px;
+    background:var(--card); border:2px solid var(--ink); border-radius:999px;
+    padding:7px 14px; min-width:min(100%, 240px); margin-left:auto;
+  }
+  .search-mini input{ border:none; outline:none; background:transparent; font-size:13.5px; width:100%; }
+
+  .view{ display:none; }
+  .view.active{ display:block; }
 
   .orders{ display:flex; flex-direction:column; gap:14px; }
-  .order-card{
-    border:2px solid var(--ink); border-radius:12px;
-    background:#fffefb; padding:16px 18px;
+  .order-card, .prow, .add-tag, .profile-form, .empty-box{
+    border:2px solid var(--ink); border-radius:12px; background:#fffefb;
     box-shadow:5px 5px 0 var(--line);
   }
+  .order-card{ padding:16px 18px; }
   .order-card.done{ box-shadow:none; background:var(--card); }
-  .order-card-head{
-    display:flex; justify-content:space-between; align-items:flex-start; gap:10px;
-    margin-bottom:10px;
-  }
-  .order-card .oid{ font-size:14.5px; font-weight:700; }
-  .order-card .obuyer{ font-size:12.5px; color:var(--muted); margin-top:1px; }
+  .order-card-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:10px; }
+  .oid{ font-size:14.5px; font-weight:700; }
+  .obuyer{ font-size:12.5px; color:var(--muted); margin-top:1px; }
   .status-pill{
     flex:none; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em;
-    padding:5px 11px; border-radius:999px;
-    border:2px solid var(--ink); color:var(--ink); background:transparent;
+    padding:5px 11px; border-radius:999px; border:2px solid var(--ink);
   }
   .status-pill.is-done{ background:var(--olive); border-color:var(--olive); color:#fff; }
-
-  .order-items{ margin-bottom:8px; }
   .oitem{ font-size:14px; padding:4px 0; display:flex; justify-content:space-between; gap:10px; }
   .order-total{
-    font-weight:700; font-size:14.5px; margin-bottom:14px; padding-top:8px;
+    font-weight:700; font-size:14.5px; margin:8px 0 14px; padding-top:8px;
     border-top:1px solid #e3d9c3; display:flex; justify-content:space-between;
   }
-  .order-action{
-    border:2px solid var(--ink); border-radius:999px; padding:10px 18px;
-    font-weight:700; font-size:13px; cursor:pointer;
-    background:var(--ink); color:#fff; transition:background .15s ease;
-  }
-  .order-action:hover{ background:var(--ink-soft); }
   .order-action.is-done{ background:transparent; color:var(--ink); }
   .order-action.is-done:hover{ background:#efe6d2; }
 
-  .orders-empty{
-    text-align:center; color:var(--muted); font-size:14px; padding:36px 0;
-    border:2px dashed var(--line); border-radius:10px;
-  }
+  .empty-box{ text-align:center; color:var(--muted); font-size:14px; padding:36px 16px; box-shadow:none; border-style:dashed; }
 
-  .products-list{ display:flex; flex-direction:column; gap:10px; margin-bottom:26px; }
+  .products-list{ display:flex; flex-direction:column; gap:12px; margin-bottom:26px; }
   .prow{
-    display:grid; grid-template-columns:56px 1fr auto auto; gap:14px; align-items:center;
-    background:var(--card); border:2px solid var(--ink); border-radius:8px; padding:10px 14px;
+    display:grid; grid-template-columns:64px 1fr auto; gap:14px; align-items:center;
+    padding:12px 14px; transition: transform .15s ease, box-shadow .15s ease;
   }
-  .prow img{ width:56px; height:56px; border-radius:6px; object-fit:cover; border:2px solid var(--ink); }
-  .prow .pname{ font-weight:700; font-size:14.5px; }
-  .prow .pdesc{ font-size:12px; color:var(--muted); margin-top:2px; }
-  .prow .pprice{ font-weight:700; color:var(--awning-a); font-size:14px; white-space:nowrap; }
-  .prow .pdel{
-    border:none; background:transparent; color:var(--muted); cursor:pointer;
-    width:32px; height:32px; border-radius:50%;
+  .prow:hover{ transform:translate(-2px,-2px); box-shadow:8px 8px 0 var(--mustard); }
+  .prow img{ width:64px; height:64px; border-radius:8px; object-fit:cover; border:2px solid var(--ink); }
+  .pname{ font-weight:700; font-size:15px; }
+  .pdesc{ font-size:12.5px; color:var(--muted); margin-top:2px; }
+  .pprice{ font-weight:700; color:var(--awning-a); font-size:14px; margin-top:4px; }
+  .prow-actions{ display:flex; gap:6px; }
+  .icon-btn{
+    width:34px; height:34px; border-radius:50%;
+    border:2px solid var(--ink); background:var(--card);
     display:flex; align-items:center; justify-content:center;
-    transition: background .15s ease, color .15s ease;
   }
-  .prow .pdel:hover{ background:#f4ecd8; color:var(--awning-a); }
+  .icon-btn:hover{ background:#f4ecd8; }
+  .icon-btn.danger:hover{ color:var(--awning-a); }
+  .off-tag{
+    display:inline-block; margin-left:6px; font-size:10px; font-weight:700;
+    text-transform:uppercase; letter-spacing:.04em;
+    background:#efe6d2; border:1px solid var(--ink); border-radius:999px; padding:2px 7px;
+  }
 
-  .add-tag{
-    border:2px solid var(--ink); border-radius:10px; background:#fffefb;
-    padding:18px 20px 20px; position:relative;
-  }
+  .add-tag{ padding:22px 20px 20px; position:relative; background:var(--card); }
   .add-tag::before{
     content:"Novo produto"; position:absolute; top:-11px; left:16px;
     background:var(--mustard); color:var(--ink); font-size:11px; font-weight:700;
@@ -299,127 +330,106 @@
   }
   .add-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px; }
   .add-grid .full{ grid-column:1/-1; }
-  .add-tag label{
-    display:block; font-size:11px; font-weight:700; text-transform:uppercase;
-    letter-spacing:.05em; margin-bottom:5px; color:var(--label);
-  }
-  .add-tag input, .add-tag textarea{
-    width:100%; border:2px solid var(--ink); border-radius:7px;
-    padding:9px 11px; font-family:'Space Grotesk',sans-serif; font-size:13.5px;
-    background:#fff;
-  }
-  .add-tag input:focus, .add-tag textarea:focus{ outline:2px solid var(--mustard); }
-  .add-tag textarea{ resize:vertical; min-height:44px; }
-  .add-submit{
-    margin-top:14px; border:2px solid var(--ink); background:var(--ink); color:#fff;
-    font-weight:700; font-size:13.5px; padding:11px 22px; border-radius:999px; cursor:pointer;
-    transition:background .15s ease;
-  }
-  .add-submit:hover{ background:var(--ink-soft); }
+  .add-tag textarea, .profile-form textarea, .modal textarea{ resize:vertical; min-height:70px; }
+  .add-submit{ margin-top:14px; }
 
-  .profile-form{ max-width:560px; }
-  .profile-form .field{ margin-bottom:16px; }
-  .profile-form label{
-    display:block; font-size:11.5px; font-weight:700; text-transform:uppercase;
-    letter-spacing:.05em; margin-bottom:6px; color:var(--label);
-  }
-  .profile-form input, .profile-form textarea{
-    width:100%; border:2px solid var(--ink); border-radius:8px;
-    padding:10px 12px; font-family:'Space Grotesk',sans-serif; font-size:14px;
-    background:var(--card);
-  }
-  .profile-form input:focus, .profile-form textarea:focus{ outline:2px solid var(--mustard); }
-  .profile-form textarea{ resize:vertical; min-height:90px; }
-  .profile-save{
-    border:2px solid var(--ink); background:var(--ink); color:#fff;
-    font-weight:700; font-size:14px; padding:12px 26px; border-radius:999px; cursor:pointer;
-    transition:background .15s ease;
-  }
-  .profile-save:hover{ background:var(--ink-soft); }
+  .profile-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .profile-grid .full{ grid-column:1/-1; }
+  .profile-form{ max-width:720px; padding:22px; }
   .save-toast{
     display:inline-flex; align-items:center; gap:6px;
     margin-left:12px; font-size:12.5px; font-weight:700; color:var(--olive);
-    opacity:0; transition: opacity .2s ease;
+    opacity:0; transition:opacity .2s ease;
   }
   .save-toast.show{ opacity:1; }
-  .save-toast .icon{ width:15px; height:15px; }
 
-  .view{ display:none; }
-  .view.active{ display:block; }
+  .overlay{
+    position:fixed; inset:0; background:rgba(20,14,8,.55);
+    display:none; align-items:center; justify-content:center;
+    padding:20px; z-index:200; overflow-y:auto;
+    backdrop-filter: blur(2px);
+  }
+  .overlay.open{ display:flex; }
+  .modal{
+    background:var(--card); width:100%; max-width:440px;
+    border:2px solid var(--ink); border-radius:14px;
+    box-shadow:10px 10px 0 rgba(0,0,0,.25);
+    padding:26px 24px 24px; position:relative;
+    animation: rise .25s ease;
+  }
+  .modal .close{
+    position:absolute; top:12px; right:12px;
+    width:32px; height:32px; border-radius:50%;
+    background:var(--ink); color:#fff; border:none; font-size:16px;
+  }
+  .modal h2{ font-size:22px; margin-bottom:4px; }
+  .modal .sub{ font-size:13px; color:var(--muted); margin-bottom:16px; }
+  .modal-actions{ display:flex; gap:10px; margin-top:16px; }
+  .modal-actions button{ flex:1; }
 
-  @media (max-width:760px){
-    .app.open{ flex-direction:column; }
-    .sidebar{ width:100%; flex-direction:row; align-items:center; padding:14px 16px; border-right:none; border-bottom:1px solid rgba(255,255,255,.1); }
-    .sidebar .brand{ border:none; padding:0 14px 0 0; margin:0; }
-    .sidebar .stallname{ display:none; }
-    .navlist{ flex-direction:row; padding:0; overflow-x:auto; }
-    .navlist button span.label{ white-space:nowrap; }
-    .sidebar-foot{ display:none; }
-    .main{ padding:22px 18px 50px; }
-    .add-grid{ grid-template-columns:1fr; }
-    .order-card-head{ flex-wrap:wrap; }
+  @media (max-width:720px){
+    .header-actions{ position:static; justify-content:center; margin-bottom:10px; }
+    header.top{ padding-top:16px; }
+    .add-grid, .profile-grid{ grid-template-columns:1fr; }
+    .search-mini{ margin-left:0; width:100%; }
+    .prow{ grid-template-columns:56px 1fr; }
+    .prow-actions{ grid-column:1/-1; justify-content:flex-end; }
   }
 </style>
 </head>
 <body>
 
-<!-- shared icon sprite -->
 <svg style="display:none" aria-hidden="true">
   <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
-  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.86 21.86 0 0 1 5.06-6.94"/><path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.86 21.86 0 0 1-3.22 4.44"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.86 21.86 0 0 1 5.06-6.94"/><path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.86 21.86 0 0 1-3.22 4.44"/><path d="M14.12 14.12a3 3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></symbol>
   <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4V8z"/><line x1="13" y1="6" x2="13" y2="18" stroke-dasharray="2 2.4"/></symbol>
   <symbol id="i-basket" viewBox="0 0 24 24"><path d="M21 8H3l1.5 12.5A2 2 0 0 0 6.48 22h11.04a2 2 0 0 0 1.98-1.5L21 8z"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
-  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
   <symbol id="i-close" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
 </svg>
 
-<!-- ================= LOGIN — portal do parceiro ================= -->
-<div class="login-screen" id="loginScreen">
-  <header class="brand-header">
-    <div class="brandmark"><span class="sq">F</span> Feira da Praça</div>
-    <div class="eyebrow">Portal do parceiro</div>
-    <h1 id="lpHeadline">Sua barraca, sempre pronta pra feira.</h1>
-    <p id="lpSubline">Gerencie pedidos, produtos e as informações da sua barraca em um só lugar.</p>
+<div class="login-wrap" id="loginScreen">
+  <header class="top">
+    <div class="title-block">
+      <div class="eyebrow">Portal do parceiro</div>
+      <h1>Feira da Praça</h1>
+      <p>Sua barraca, sempre pronta pra feira. Pedidos, produtos e dados em um só lugar.</p>
+    </div>
   </header>
-
   <div class="lp-body">
     <div class="auth-panel">
       <div class="top-tag">PARCEIROS</div>
       <h2 id="lpTitle">Entrar no painel</h2>
       <p class="sub" id="lpSub">Acesse para gerenciar pedidos, produtos e sua barraca.</p>
-
       <div class="auth-tabs">
         <button type="button" id="tabLoginBtn" class="active">Entrar</button>
         <button type="button" id="tabRegisterBtn">Cadastrar barraca</button>
       </div>
-
-      <!-- LOGIN -->
       <form id="loginForm">
         <div class="field">
           <label for="loginEmail">E-mail</label>
-          <input type="email" id="loginEmail" placeholder="voce@barraca.com" required>
+          <input type="email" id="loginEmail" placeholder="voce@barraca.com" autocomplete="username" required>
         </div>
         <div class="field">
           <label for="loginPass">Senha</label>
           <div class="input-wrap">
-            <input type="password" id="loginPass" placeholder="••••••••" required>
+            <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" required>
             <button type="button" class="toggle-eye" data-target="loginPass" aria-label="Mostrar senha">
               <svg class="icon"><use href="#i-eye"/></svg>
             </button>
           </div>
         </div>
         <div class="field-error" id="loginError">E-mail ou senha incorretos.</div>
-        <div class="forgot-msg" id="forgotMsg">Instruções enviadas para o e-mail informado (demo).</div>
+        <div class="forgot-msg" id="forgotMsg">Se este e-mail existir, enviaremos as instruções (demonstração).</div>
         <div class="row-between">
-          <label class="remember"><input type="checkbox" id="rememberMe"> Manter conectado</label>
+          <label class="remember"><input type="checkbox" id="rememberMe" checked> Manter conectado</label>
           <button type="button" class="forgot-link" id="forgotBtn">Esqueci minha senha</button>
         </div>
         <button type="submit" class="auth-submit">Entrar</button>
       </form>
-
-      <!-- CADASTRO -->
       <form id="registerForm" style="display:none">
         <div class="field">
           <label for="regStall">Nome da barraca</label>
@@ -432,10 +442,10 @@
         <div class="field">
           <label for="regCategory">Categoria</label>
           <select id="regCategory">
-            <option>Frutas & Verduras</option>
-            <option>Comidas & Lanches</option>
+            <option>Frutas &amp; Verduras</option>
+            <option>Comidas &amp; Lanches</option>
             <option>Artesanato</option>
-            <option>Flores & Plantas</option>
+            <option>Flores &amp; Plantas</option>
             <option>Laticínios</option>
             <option>Padaria</option>
             <option>Outros</option>
@@ -443,12 +453,12 @@
         </div>
         <div class="field">
           <label for="regEmail">E-mail</label>
-          <input type="email" id="regEmail" placeholder="voce@barraca.com" required>
+          <input type="email" id="regEmail" placeholder="voce@barraca.com" autocomplete="username" required>
         </div>
         <div class="field">
           <label for="regPass">Crie uma senha</label>
           <div class="input-wrap">
-            <input type="password" id="regPass" placeholder="Mínimo 6 caracteres" required minlength="6">
+            <input type="password" id="regPass" placeholder="Mínimo 6 caracteres" minlength="6" autocomplete="new-password" required>
             <button type="button" class="toggle-eye" data-target="regPass" aria-label="Mostrar senha">
               <svg class="icon"><use href="#i-eye"/></svg>
             </button>
@@ -457,7 +467,6 @@
         <div class="field-error" id="registerError"></div>
         <button type="submit" class="auth-submit">Criar conta e entrar</button>
       </form>
-
       <div class="lp-note">
         <b>Conta de demonstração:</b> nino@feiradapraca.com · senha colheita2024
       </div>
@@ -465,45 +474,50 @@
   </div>
 </div>
 
-<!-- ================= APP ================= -->
 <div class="app" id="app">
-  <aside class="sidebar">
-    <div class="brand">
-      <span class="sq">F</span>
-      <div class="brand-text">
-        <div class="eyebrow">Feira da Praça</div>
-        <h2>Painel</h2>
-      </div>
+  <header class="top">
+    <div class="header-actions">
+      <div class="user-chip" id="userChip"></div>
     </div>
-    <div class="stallname" id="stallNameLabel"></div>
-    <nav class="navlist" id="navList">
-      <button data-view="pedidos" class="active"><svg class="icon"><use href="#i-ticket"/></svg><span class="label">Pedidos</span></button>
-      <button data-view="produtos"><svg class="icon"><use href="#i-basket"/></svg><span class="label">Produtos</span></button>
-      <button data-view="perfil"><svg class="icon"><use href="#i-pin"/></svg><span class="label">Minha barraca</span></button>
-    </nav>
-    <div class="sidebar-foot">
-      <button id="logoutBtn"><svg class="icon"><use href="#i-logout"/></svg> Sair da conta</button>
+    <div class="title-block">
+      <div class="eyebrow">Portal do parceiro</div>
+      <h1>Painel da barraca</h1>
+      <p id="stallHeadline">Gerencie o movimento do dia com o mesmo visual da feira.</p>
     </div>
-  </aside>
+  </header>
 
-  <main class="main">
+  <nav class="app-nav" id="navList">
+    <button data-view="pedidos" class="active"><svg class="icon"><use href="#i-ticket"/></svg> Pedidos</button>
+    <button data-view="produtos"><svg class="icon"><use href="#i-basket"/></svg> Produtos</button>
+    <button data-view="perfil"><svg class="icon"><use href="#i-pin"/></svg> Minha barraca</button>
+  </nav>
+
+  <main class="workspace">
     <div class="topline">
       <div>
         <h1 id="viewTitle">Pedidos de hoje</h1>
-        <div class="sub" id="viewSub">Retire ou entregue os pedidos e marque como concluído.</div>
+        <div class="sub" id="viewSub">Marque as retiradas e acompanhe o movimento da banca.</div>
       </div>
       <div class="today-badge" id="todayBadge"></div>
     </div>
-
     <div class="crates" id="crates"></div>
 
     <section class="view active" id="view-pedidos">
       <div class="section-title">Fila de retirada</div>
+      <div class="toolbar">
+        <button type="button" class="chip active" data-filter="pendente">Pendentes</button>
+        <button type="button" class="chip" data-filter="retirado">Retirados</button>
+        <button type="button" class="chip" data-filter="todos">Todos</button>
+        <div class="search-mini">
+          <svg class="icon"><use href="#i-search"/></svg>
+          <input type="search" id="orderSearch" placeholder="Buscar pedido ou cliente">
+        </div>
+      </div>
       <div class="orders" id="ordersList"></div>
     </section>
 
     <section class="view" id="view-produtos">
-      <div class="section-title">Seus produtos</div>
+      <div class="section-title">Cardápio da barraca</div>
       <div class="products-list" id="productsList"></div>
       <div class="add-tag">
         <form id="addProductForm">
@@ -533,31 +547,96 @@
     <section class="view" id="view-perfil">
       <div class="section-title">Dados da barraca</div>
       <form class="profile-form" id="profileForm">
-        <div class="field">
-          <label for="prOwner">Responsável</label>
-          <input type="text" id="prOwner">
+        <div class="profile-grid">
+          <div class="full">
+            <label for="prName">Nome da barraca</label>
+            <input type="text" id="prName">
+          </div>
+          <div>
+            <label for="prOwner">Responsável</label>
+            <input type="text" id="prOwner">
+          </div>
+          <div>
+            <label for="prCategory">Categoria</label>
+            <select id="prCategory">
+              <option>Frutas &amp; Verduras</option>
+              <option>Comidas &amp; Lanches</option>
+              <option>Artesanato</option>
+              <option>Flores &amp; Plantas</option>
+              <option>Laticínios</option>
+              <option>Padaria</option>
+              <option>Outros</option>
+            </select>
+          </div>
+          <div class="full">
+            <label for="prAbout">Sobre a barraca</label>
+            <textarea id="prAbout"></textarea>
+          </div>
+          <div class="full">
+            <label for="prAddress">Localização na feira</label>
+            <input type="text" id="prAddress">
+          </div>
+          <div class="full">
+            <label for="prHours">Horário de funcionamento</label>
+            <input type="text" id="prHours" placeholder="Sáb e Dom, 7h às 13h">
+          </div>
         </div>
-        <div class="field">
-          <label for="prAbout">Sobre a barraca</label>
-          <textarea id="prAbout"></textarea>
+        <div style="margin-top:16px">
+          <button type="submit" class="profile-save">Salvar alterações</button>
+          <span class="save-toast" id="saveToast"><svg class="icon"><use href="#i-check"/></svg> Salvo</span>
         </div>
-        <div class="field">
-          <label for="prAddress">Localização na feira</label>
-          <input type="text" id="prAddress">
-        </div>
-        <div class="field">
-          <label for="prHours">Horário de funcionamento</label>
-          <input type="text" id="prHours">
-        </div>
-        <button type="submit" class="profile-save">Salvar alterações</button>
-        <span class="save-toast" id="saveToast"><svg class="icon"><use href="#i-check"/></svg> Salvo</span>
       </form>
     </section>
   </main>
 </div>
 
+<div class="overlay" id="editOverlay">
+  <div class="modal" role="dialog" aria-labelledby="editTitle">
+    <button class="close" id="editClose" aria-label="Fechar">✕</button>
+    <h2 id="editTitle">Editar produto</h2>
+    <p class="sub">Atualize o item que aparece no cardápio da barraca.</p>
+    <form id="editProductForm">
+      <input type="hidden" id="editIdx">
+      <div class="field">
+        <label for="eName">Nome</label>
+        <input type="text" id="eName" required>
+      </div>
+      <div class="field">
+        <label for="ePrice">Preço</label>
+        <input type="text" id="ePrice" required>
+      </div>
+      <div class="field">
+        <label for="eImg">URL da foto</label>
+        <input type="url" id="eImg" placeholder="https://...">
+      </div>
+      <div class="field">
+        <label for="eDesc">Descrição</label>
+        <textarea id="eDesc"></textarea>
+      </div>
+      <label class="remember" style="margin-bottom:8px">
+        <input type="checkbox" id="eActive"> Produto visível no cardápio
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn-ghost" id="editCancel">Cancelar</button>
+        <button type="submit" class="btn-ink">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="overlay" id="confirmOverlay">
+  <div class="modal" role="dialog" aria-labelledby="confirmTitle">
+    <button class="close" id="confirmClose" aria-label="Fechar">✕</button>
+    <h2 id="confirmTitle">Remover produto?</h2>
+    <p class="sub" id="confirmText">Essa ação tira o item do cardápio da barraca.</p>
+    <div class="modal-actions">
+      <button type="button" class="btn-ghost" id="confirmNo">Cancelar</button>
+      <button type="button" class="btn-ink" id="confirmYes">Remover</button>
+    </div>
+  </div>
+</div>
+
 <script>
-/* ---------------- barracas seed (id fixo) ---------------- */
 const STALLS = [
   { id:1, name:"Barraca do Seu Nino", category:"Frutas & Verduras", owner:"Antônio 'Nino' Ferreira",
     about:"Há 22 anos na mesma esquina da feira, o Seu Nino traz frutas e verduras cultivadas em sua própria chácara na região metropolitana.",
@@ -584,69 +663,96 @@ const STALLS = [
     ]},
 ];
 
-/* ---------------- contas de acesso (demo) ---------------- */
+const FALLBACK_IMG = "https://images.unsplash.com/photo-1542838132-92c53300491e?w=200&q=80";
+const VIEW_META = {
+  pedidos: { title:"Pedidos de hoje", sub:"Retire ou entregue os pedidos e marque como concluído." },
+  produtos: { title:"Seus produtos", sub:"Cadastre, edite preços ou pause itens do cardápio." },
+  perfil: { title:"Minha barraca", sub:"Essas informações aparecem para quem visita sua página na feira." }
+};
+
+let currentStallId = null;
+let currentView = "pedidos";
+let orderFilter = "pendente";
+let orderQuery = "";
+let pendingDeleteIdx = null;
+
+function esc(s){
+  return String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+function safeImg(url){
+  try{
+    const u = new URL(url);
+    if(u.protocol === "http:" || u.protocol === "https:") return u.href;
+  }catch(e){}
+  return FALLBACK_IMG;
+}
+function parsePrice(str){
+  const m = (str||"").match(/[\d.,]+/);
+  if(!m) return 0;
+  return parseFloat(m[0].replace(/\./g,"").replace(",", ".")) || 0;
+}
+function formatBRL(v){ return "R$ " + v.toFixed(2).replace(".", ","); }
+
 function getAccounts(){
-  const raw = localStorage.getItem('vendor_accounts');
+  const raw = localStorage.getItem("vendor_accounts");
   if(raw) return JSON.parse(raw);
   const seeded = {
     "nino@feiradapraca.com": { pass:"colheita2024", stallId:1 },
     "tear@feiradapraca.com": { pass:"crochet2024", stallId:2 },
     "celia@feiradapraca.com": { pass:"pastel2024", stallId:3 }
   };
-  localStorage.setItem('vendor_accounts', JSON.stringify(seeded));
+  localStorage.setItem("vendor_accounts", JSON.stringify(seeded));
   return seeded;
 }
-function saveAccounts(a){ localStorage.setItem('vendor_accounts', JSON.stringify(a)); }
-
-function getCustomStalls(){
-  return JSON.parse(localStorage.getItem('vendor_custom_stalls') || '[]');
-}
-function saveCustomStalls(list){ localStorage.setItem('vendor_custom_stalls', JSON.stringify(list)); }
-
+function saveAccounts(a){ localStorage.setItem("vendor_accounts", JSON.stringify(a)); }
+function getCustomStalls(){ return JSON.parse(localStorage.getItem("vendor_custom_stalls") || "[]"); }
+function saveCustomStalls(list){ localStorage.setItem("vendor_custom_stalls", JSON.stringify(list)); }
 function findStall(id){
-  return STALLS.find(s=>s.id===id) || getCustomStalls().find(s=>s.id===id);
+  return STALLS.find(s => s.id === id) || getCustomStalls().find(s => s.id === id);
 }
 
-let currentStallId = null;
-let currentView = 'pedidos';
-
-/* ---------------- storage por barraca ---------------- */
 const LS_PRODUCTS = id => `vendor_products_${id}`;
 const LS_PROFILE  = id => `vendor_profile_${id}`;
 const LS_ORDERS   = id => `vendor_orders_${id}`;
 
+function normalizeProduct(p){
+  return { name:p.name||"", price:p.price||"", desc:p.desc||"", img:p.img||"", active: p.active !== false };
+}
 function getProducts(id){
   const raw = localStorage.getItem(LS_PRODUCTS(id));
-  if(raw) return JSON.parse(raw);
-  const base = (findStall(id) || {}).products || [];
+  if(raw) return JSON.parse(raw).map(normalizeProduct);
+  const base = ((findStall(id) || {}).products || []).map(normalizeProduct);
   localStorage.setItem(LS_PRODUCTS(id), JSON.stringify(base));
   return base;
 }
 function saveProducts(id, list){ localStorage.setItem(LS_PRODUCTS(id), JSON.stringify(list)); }
-
 function getProfile(id){
   const raw = localStorage.getItem(LS_PROFILE(id));
   if(raw) return JSON.parse(raw);
   const s = findStall(id) || {};
-  const base = { owner:s.owner||'', about:s.about||'', address:s.address||'', hours:s.hours||'' };
+  const base = {
+    name:s.name||"", owner:s.owner||"", category:s.category||"Outros",
+    about:s.about||"", address:s.address||"", hours:s.hours||""
+  };
   localStorage.setItem(LS_PROFILE(id), JSON.stringify(base));
   return base;
 }
 function saveProfile(id, data){ localStorage.setItem(LS_PROFILE(id), JSON.stringify(data)); }
 
 function seedOrders(id){
-  const s = findStall(id);
-  const p = (s && s.products && s.products.length) ? s.products : getProducts(id);
-  if(!p || p.length === 0) return [];
+  const p = getProducts(id).filter(x => x.active);
+  if(!p.length) return [];
   const names = ["Marina T.", "Eduardo S.", "Camila R.", "João P.", "Beatriz A."];
-  const n = 2 + (id % 3);
+  const n = 2 + (Number(id) % 3);
   const orders = [];
   for(let i=0;i<n;i++){
     const item1 = p[i % p.length];
     const item2 = p[(i+1) % p.length];
     orders.push({
-      id: '#' + (100000 + id*137 + i*19),
-      buyer: names[(i+id) % names.length],
+      id: "#" + (100000 + (Number(id)%10000)*17 + i*19),
+      buyer: names[(i + Number(id)) % names.length],
       items: i % 2 === 0 ? [{...item1, qty:1}] : [{...item1, qty:1},{...item2, qty:2}],
       done: false
     });
@@ -662,208 +768,221 @@ function getOrders(id){
 }
 function saveOrders(id, list){ localStorage.setItem(LS_ORDERS(id), JSON.stringify(list)); }
 
-function parsePrice(str){
-  const m = (str||'').match(/[\d.,]+/);
-  if(!m) return 0;
-  return parseFloat(m[0].replace(/\./g,'').replace(',', '.')) || 0;
+function readSession(){
+  const local = localStorage.getItem("vendor_session");
+  if(local) return JSON.parse(local);
+  const temp = sessionStorage.getItem("vendor_session");
+  return temp ? JSON.parse(temp) : null;
 }
-function formatBRL(v){ return 'R$ ' + v.toFixed(2).replace('.', ','); }
+function writeSession(data, remember){
+  clearSession();
+  const raw = JSON.stringify(data);
+  if(remember) localStorage.setItem("vendor_session", raw);
+  else sessionStorage.setItem("vendor_session", raw);
+}
+function clearSession(){
+  localStorage.removeItem("vendor_session");
+  sessionStorage.removeItem("vendor_session");
+}
 
-/* ---------------- login screen: tabs, eye toggle, forgot ---------------- */
-const tabLoginBtn = document.getElementById('tabLoginBtn');
-const tabRegisterBtn = document.getElementById('tabRegisterBtn');
-const loginForm = document.getElementById('loginForm');
-const registerForm = document.getElementById('registerForm');
-const lpTitle = document.getElementById('lpTitle');
-const lpSub = document.getElementById('lpSub');
+const tabLoginBtn = document.getElementById("tabLoginBtn");
+const tabRegisterBtn = document.getElementById("tabRegisterBtn");
+const loginForm = document.getElementById("loginForm");
+const registerForm = document.getElementById("registerForm");
+const lpTitle = document.getElementById("lpTitle");
+const lpSub = document.getElementById("lpSub");
 
-tabLoginBtn.addEventListener('click', ()=>{
-  tabLoginBtn.classList.add('active');
-  tabRegisterBtn.classList.remove('active');
-  loginForm.style.display = 'block';
-  registerForm.style.display = 'none';
-  lpTitle.textContent = 'Entrar no painel';
-  lpSub.textContent = 'Acesse para gerenciar pedidos, produtos e sua barraca.';
+tabLoginBtn.addEventListener("click", ()=>{
+  tabLoginBtn.classList.add("active");
+  tabRegisterBtn.classList.remove("active");
+  loginForm.style.display = "block";
+  registerForm.style.display = "none";
+  lpTitle.textContent = "Entrar no painel";
+  lpSub.textContent = "Acesse para gerenciar pedidos, produtos e sua barraca.";
 });
-tabRegisterBtn.addEventListener('click', ()=>{
-  tabRegisterBtn.classList.add('active');
-  tabLoginBtn.classList.remove('active');
-  registerForm.style.display = 'block';
-  loginForm.style.display = 'none';
-  lpTitle.textContent = 'Cadastrar barraca';
-  lpSub.textContent = 'Crie sua conta de parceiro e comece a vender na feira.';
+tabRegisterBtn.addEventListener("click", ()=>{
+  tabRegisterBtn.classList.add("active");
+  tabLoginBtn.classList.remove("active");
+  registerForm.style.display = "block";
+  loginForm.style.display = "none";
+  lpTitle.textContent = "Cadastrar barraca";
+  lpSub.textContent = "Crie sua conta de parceiro e comece a vender na feira.";
 });
 
-document.querySelectorAll('.toggle-eye').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
+document.querySelectorAll(".toggle-eye").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
     const target = document.getElementById(btn.dataset.target);
-    const use = btn.querySelector('use');
-    const showing = target.type === 'password';
-    target.type = showing ? 'text' : 'password';
-    use.setAttribute('href', showing ? '#i-eye-off' : '#i-eye');
-    btn.setAttribute('aria-label', showing ? 'Ocultar senha' : 'Mostrar senha');
+    const use = btn.querySelector("use");
+    const showing = target.type === "password";
+    target.type = showing ? "text" : "password";
+    use.setAttribute("href", showing ? "#i-eye-off" : "#i-eye");
+    btn.setAttribute("aria-label", showing ? "Ocultar senha" : "Mostrar senha");
   });
 });
 
-document.getElementById('forgotBtn').addEventListener('click', ()=>{
-  const msg = document.getElementById('forgotMsg');
-  msg.classList.add('show');
-  setTimeout(()=> msg.classList.remove('show'), 4000);
+document.getElementById("forgotBtn").addEventListener("click", ()=>{
+  const msg = document.getElementById("forgotMsg");
+  msg.classList.add("show");
+  setTimeout(()=> msg.classList.remove("show"), 4000);
 });
 
-/* ---------------- login submit ---------------- */
-loginForm.addEventListener('submit', (e)=>{
+loginForm.addEventListener("submit", (e)=>{
   e.preventDefault();
-  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-  const pass = document.getElementById('loginPass').value;
-  const accounts = getAccounts();
-  const acc = accounts[email];
-  const errorEl = document.getElementById('loginError');
+  const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+  const pass = document.getElementById("loginPass").value;
+  const remember = document.getElementById("rememberMe").checked;
+  const acc = getAccounts()[email];
+  const errorEl = document.getElementById("loginError");
   if(!acc || acc.pass !== pass){
-    errorEl.classList.add('show');
+    errorEl.classList.add("show");
     return;
   }
-  errorEl.classList.remove('show');
-  enterApp(acc.stallId);
+  errorEl.classList.remove("show");
+  writeSession({ email, stallId: acc.stallId }, remember);
+  enterApp(acc.stallId, email);
 });
 
-/* ---------------- cadastro submit ---------------- */
-registerForm.addEventListener('submit', (e)=>{
+registerForm.addEventListener("submit", (e)=>{
   e.preventDefault();
-  const stallName = document.getElementById('regStall').value.trim();
-  const owner = document.getElementById('regOwner').value.trim();
-  const category = document.getElementById('regCategory').value;
-  const email = document.getElementById('regEmail').value.trim().toLowerCase();
-  const pass = document.getElementById('regPass').value;
-  const errorEl = document.getElementById('registerError');
-
+  const stallName = document.getElementById("regStall").value.trim();
+  const owner = document.getElementById("regOwner").value.trim();
+  const category = document.getElementById("regCategory").value;
+  const email = document.getElementById("regEmail").value.trim().toLowerCase();
+  const pass = document.getElementById("regPass").value;
+  const errorEl = document.getElementById("registerError");
   const accounts = getAccounts();
   if(accounts[email]){
-    errorEl.textContent = 'Este e-mail já está cadastrado.';
-    errorEl.classList.add('show');
+    errorEl.textContent = "Este e-mail já está cadastrado.";
+    errorEl.classList.add("show");
     return;
   }
-  errorEl.classList.remove('show');
-
+  errorEl.classList.remove("show");
   const newId = Date.now();
   const customStalls = getCustomStalls();
-  customStalls.push({
-    id:newId, name:stallName, category, owner,
-    about:'', address:'', hours:'', products:[]
-  });
+  customStalls.push({ id:newId, name:stallName, category, owner, about:"", address:"", hours:"", products:[] });
   saveCustomStalls(customStalls);
-
   accounts[email] = { pass, stallId:newId };
   saveAccounts(accounts);
-
-  enterApp(newId);
+  writeSession({ email, stallId:newId }, true);
+  enterApp(newId, email);
 });
 
-/* ---------------- entrar no app ---------------- */
-function enterApp(stallId){
+function enterApp(stallId, email){
   currentStallId = stallId;
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('app').classList.add('open');
-  const s = findStall(stallId);
-  document.getElementById('stallNameLabel').textContent = s ? s.name : 'Sua barraca';
-  document.getElementById('todayBadge').textContent = new Date().toLocaleDateString('pt-BR', { weekday:'long', day:'2-digit', month:'long' });
-  currentView = 'pedidos';
-  document.querySelectorAll('.navlist button').forEach(b=>b.classList.remove('active'));
-  document.querySelector('.navlist button[data-view="pedidos"]').classList.add('active');
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.getElementById('view-pedidos').classList.add('active');
-  viewTitle.textContent = VIEW_META.pedidos.title;
-  viewSub.textContent = VIEW_META.pedidos.sub;
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("app").classList.add("open");
+  const profile = getProfile(stallId);
+  const stall = findStall(stallId);
+  const name = profile.name || (stall && stall.name) || "Sua barraca";
+  document.getElementById("stallHeadline").textContent = name + " — gerencie o dia da feira.";
+  const initial = (profile.owner || name || "P").trim().charAt(0).toUpperCase();
+  document.getElementById("userChip").innerHTML = `
+    <div class="avatar">${esc(initial)}</div>
+    <span>${esc((profile.owner || name).split(" ")[0])}</span>
+    <button type="button" id="logoutBtn">Sair</button>
+  `;
+  document.getElementById("logoutBtn").addEventListener("click", logout);
+  document.getElementById("todayBadge").textContent = new Date().toLocaleDateString("pt-BR", {
+    weekday:"long", day:"2-digit", month:"long"
+  });
+  showView("pedidos");
   renderAll();
 }
 
-document.getElementById('logoutBtn').addEventListener('click', ()=>{
-  document.getElementById('app').classList.remove('open');
-  document.getElementById('loginScreen').classList.remove('hidden');
+function logout(){
+  clearSession();
+  document.getElementById("app").classList.remove("open");
+  document.getElementById("loginScreen").classList.remove("hidden");
   loginForm.reset();
-});
+  document.getElementById("rememberMe").checked = true;
+}
 
-/* ---------------- navegação entre views ---------------- */
-const navList = document.getElementById('navList');
-const viewTitle = document.getElementById('viewTitle');
-const viewSub = document.getElementById('viewSub');
-const VIEW_META = {
-  pedidos: { title:"Pedidos de hoje", sub:"Retire ou entregue os pedidos e marque como concluído." },
-  produtos: { title:"Seus produtos", sub:"Adicione, edite preços ou remova itens do seu cardápio." },
-  perfil: { title:"Minha barraca", sub:"Essas informações aparecem para quem visita sua página na feira." }
-};
-navList.querySelectorAll('button').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    currentView = btn.dataset.view;
-    navList.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-    document.getElementById('view-'+currentView).classList.add('active');
-    viewTitle.textContent = VIEW_META[currentView].title;
-    viewSub.textContent = VIEW_META[currentView].sub;
+const navList = document.getElementById("navList");
+const viewTitle = document.getElementById("viewTitle");
+const viewSub = document.getElementById("viewSub");
+navList.querySelectorAll("button").forEach(btn=>{
+  btn.addEventListener("click", ()=> showView(btn.dataset.view));
+});
+function showView(view){
+  currentView = view;
+  navList.querySelectorAll("button").forEach(b => b.classList.toggle("active", b.dataset.view === view));
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.getElementById("view-"+view).classList.add("active");
+  viewTitle.textContent = VIEW_META[view].title;
+  viewSub.textContent = VIEW_META[view].sub;
+}
+
+document.querySelectorAll("[data-filter]").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    orderFilter = btn.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach(b => b.classList.toggle("active", b === btn));
+    renderOrders();
   });
 });
+document.getElementById("orderSearch").addEventListener("input", (e)=>{
+  orderQuery = e.target.value;
+  renderOrders();
+});
 
-/* ---------------- render geral ---------------- */
 function renderAll(){
   renderCrates();
   renderOrders();
   renderProducts();
   renderProfile();
 }
-
 function renderCrates(){
   const orders = getOrders(currentStallId);
   const products = getProducts(currentStallId);
-  const pending = orders.filter(o=>!o.done).length;
+  const pending = orders.filter(o => !o.done).length;
+  const done = orders.filter(o => o.done).length;
   const revenue = orders.reduce((sum,o)=> sum + o.items.reduce((s,it)=> s + parsePrice(it.price)*it.qty, 0), 0);
-  document.getElementById('crates').innerHTML = `
-    <div class="crate">
-      <div class="num accent">${pending}</div>
-      <div class="label">Pedidos pendentes</div>
-    </div>
-    <div class="crate">
-      <div class="num">${products.length}</div>
-      <div class="label">Produtos ativos</div>
-    </div>
-    <div class="crate">
-      <div class="num">${formatBRL(revenue)}</div>
-      <div class="label">Estimado em pedidos de hoje</div>
-    </div>
+  document.getElementById("crates").innerHTML = `
+    <div class="crate"><div class="num accent">${pending}</div><div class="label">Pedidos pendentes</div></div>
+    <div class="crate"><div class="num">${done}</div><div class="label">Já retirados</div></div>
+    <div class="crate"><div class="num">${products.filter(p=>p.active).length}</div><div class="label">Produtos ativos</div></div>
+    <div class="crate"><div class="num">${formatBRL(revenue)}</div><div class="label">Estimado no dia</div></div>
   `;
 }
-
 function renderOrders(){
-  const orders = getOrders(currentStallId);
-  const list = document.getElementById('ordersList');
-  if(orders.length === 0){
-    list.innerHTML = `<div class="orders-empty">Nenhum pedido por aqui ainda hoje.</div>`;
+  let orders = getOrders(currentStallId);
+  if(orderFilter === "pendente") orders = orders.filter(o => !o.done);
+  if(orderFilter === "retirado") orders = orders.filter(o => o.done);
+  const q = orderQuery.trim().toLowerCase();
+  if(q){
+    orders = orders.filter(o =>
+      o.id.toLowerCase().includes(q) ||
+      o.buyer.toLowerCase().includes(q) ||
+      o.items.some(it => (it.name||"").toLowerCase().includes(q))
+    );
+  }
+  const list = document.getElementById("ordersList");
+  if(!orders.length){
+    list.innerHTML = `<div class="empty-box">Nenhum pedido nesta fila agora.</div>`;
     return;
   }
   list.innerHTML = orders.map(o => {
     const total = o.items.reduce((s,it)=> s + parsePrice(it.price)*it.qty, 0);
     return `
-    <div class="order-card ${o.done ? 'done' : ''}">
-      <div class="order-card-head">
-        <div>
-          <div class="oid">${o.id}</div>
-          <div class="obuyer">${o.buyer}</div>
+      <div class="order-card ${o.done ? "done" : ""}">
+        <div class="order-card-head">
+          <div>
+            <div class="oid">${esc(o.id)}</div>
+            <div class="obuyer">${esc(o.buyer)}</div>
+          </div>
+          <span class="status-pill ${o.done ? "is-done" : ""}">${o.done ? "Retirado" : "Pendente"}</span>
         </div>
-        <span class="status-pill ${o.done ? 'is-done' : ''}">${o.done ? 'Retirado' : 'Pendente'}</span>
-      </div>
-      <div class="order-items">
-        ${o.items.map(it => `<div class="oitem"><span>${it.qty}x ${it.name}</span><span>${it.price}</span></div>`).join('')}
-      </div>
-      <div class="order-total"><span>Total</span><span>${formatBRL(total)}</span></div>
-      <button class="order-action ${o.done ? 'is-done' : ''}" data-id="${o.id}">${o.done ? 'Desfazer retirada' : 'Marcar como retirado'}</button>
-    </div>
-  `; }).join('');
-
-  list.querySelectorAll('.order-action').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const id = btn.dataset.id;
+        <div>
+          ${o.items.map(it => `<div class="oitem"><span>${esc(it.qty)}x ${esc(it.name)}</span><span>${esc(it.price)}</span></div>`).join("")}
+        </div>
+        <div class="order-total"><span>Total</span><span>${formatBRL(total)}</span></div>
+        <button class="order-action ${o.done ? "is-done" : ""}" data-id="${esc(o.id)}">${o.done ? "Desfazer retirada" : "Marcar como retirado"}</button>
+      </div>`;
+  }).join("");
+  list.querySelectorAll(".order-action").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
       const orders = getOrders(currentStallId);
-      const order = orders.find(o=>o.id===id);
+      const order = orders.find(o => o.id === btn.dataset.id);
+      if(!order) return;
       order.done = !order.done;
       saveOrders(currentStallId, orders);
       renderOrders();
@@ -871,74 +990,149 @@ function renderOrders(){
     });
   });
 }
-
 function renderProducts(){
   const products = getProducts(currentStallId);
-  const list = document.getElementById('productsList');
-  if(products.length === 0){
-    list.innerHTML = `<div class="orders-empty">Você ainda não cadastrou produtos.</div>`;
-  } else {
-    list.innerHTML = products.map((p, i) => `
-      <div class="prow">
-        <img src="${p.img || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=200&q=80'}" alt="${p.name}">
-        <div>
-          <div class="pname">${p.name}</div>
-          <div class="pdesc">${p.desc || ''}</div>
-        </div>
-        <div class="pprice">${p.price}</div>
-        <button class="pdel" data-idx="${i}" aria-label="Remover produto">
-          <svg class="icon" style="width:15px;height:15px"><use href="#i-close"/></svg>
-        </button>
-      </div>
-    `).join('');
-    list.querySelectorAll('.pdel').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const idx = Number(btn.dataset.idx);
-        const products = getProducts(currentStallId);
-        products.splice(idx,1);
-        saveProducts(currentStallId, products);
-        renderProducts();
-        renderCrates();
-      });
-    });
+  const list = document.getElementById("productsList");
+  if(!products.length){
+    list.innerHTML = `<div class="empty-box">Você ainda não cadastrou produtos. Use o formulário abaixo.</div>`;
+    return;
   }
+  list.innerHTML = products.map((p, i) => `
+    <div class="prow">
+      <img src="${esc(safeImg(p.img || FALLBACK_IMG))}" alt="${esc(p.name)}" onerror="this.src='${FALLBACK_IMG}'">
+      <div>
+        <div class="pname">${esc(p.name)}${p.active ? "" : '<span class="off-tag">Pausado</span>'}</div>
+        <div class="pdesc">${esc(p.desc || "")}</div>
+        <div class="pprice">${esc(p.price)}</div>
+      </div>
+      <div class="prow-actions">
+        <button class="icon-btn" data-edit="${i}" aria-label="Editar produto"><svg class="icon"><use href="#i-edit"/></svg></button>
+        <button class="icon-btn danger" data-del="${i}" aria-label="Remover produto"><svg class="icon"><use href="#i-close"/></svg></button>
+      </div>
+    </div>
+  `).join("");
+  list.querySelectorAll("[data-edit]").forEach(btn => btn.addEventListener("click", ()=> openEdit(Number(btn.dataset.edit))));
+  list.querySelectorAll("[data-del]").forEach(btn => btn.addEventListener("click", ()=> openConfirmDelete(Number(btn.dataset.del))));
 }
 
-document.getElementById('addProductForm').addEventListener('submit', (e)=>{
+document.getElementById("addProductForm").addEventListener("submit", (e)=>{
   e.preventDefault();
-  const name = document.getElementById('pName').value.trim();
-  const price = document.getElementById('pPrice').value.trim();
-  const img = document.getElementById('pImg').value.trim();
-  const desc = document.getElementById('pDesc').value.trim();
+  const name = document.getElementById("pName").value.trim();
+  const price = document.getElementById("pPrice").value.trim();
+  const img = document.getElementById("pImg").value.trim();
+  const desc = document.getElementById("pDesc").value.trim();
   if(!name || !price) return;
   const products = getProducts(currentStallId);
-  products.push({ name, price, desc, img });
+  products.push({ name, price, desc, img, active:true });
   saveProducts(currentStallId, products);
   e.target.reset();
   renderProducts();
   renderCrates();
 });
 
+function openEdit(idx){
+  const p = getProducts(currentStallId)[idx];
+  if(!p) return;
+  document.getElementById("editIdx").value = idx;
+  document.getElementById("eName").value = p.name;
+  document.getElementById("ePrice").value = p.price;
+  document.getElementById("eImg").value = p.img || "";
+  document.getElementById("eDesc").value = p.desc || "";
+  document.getElementById("eActive").checked = p.active !== false;
+  document.getElementById("editOverlay").classList.add("open");
+}
+function closeEdit(){ document.getElementById("editOverlay").classList.remove("open"); }
+document.getElementById("editClose").addEventListener("click", closeEdit);
+document.getElementById("editCancel").addEventListener("click", closeEdit);
+document.getElementById("editOverlay").addEventListener("click", e => { if(e.target.id === "editOverlay") closeEdit(); });
+document.getElementById("editProductForm").addEventListener("submit", (e)=>{
+  e.preventDefault();
+  const idx = Number(document.getElementById("editIdx").value);
+  const products = getProducts(currentStallId);
+  if(!products[idx]) return;
+  products[idx] = {
+    name: document.getElementById("eName").value.trim(),
+    price: document.getElementById("ePrice").value.trim(),
+    img: document.getElementById("eImg").value.trim(),
+    desc: document.getElementById("eDesc").value.trim(),
+    active: document.getElementById("eActive").checked
+  };
+  saveProducts(currentStallId, products);
+  closeEdit();
+  renderProducts();
+  renderCrates();
+});
+
+function openConfirmDelete(idx){
+  pendingDeleteIdx = idx;
+  const p = getProducts(currentStallId)[idx];
+  document.getElementById("confirmText").textContent = p
+    ? `Remover “${p.name}” do cardápio?`
+    : "Remover este item do cardápio?";
+  document.getElementById("confirmOverlay").classList.add("open");
+}
+function closeConfirm(){
+  pendingDeleteIdx = null;
+  document.getElementById("confirmOverlay").classList.remove("open");
+}
+document.getElementById("confirmClose").addEventListener("click", closeConfirm);
+document.getElementById("confirmNo").addEventListener("click", closeConfirm);
+document.getElementById("confirmOverlay").addEventListener("click", e => { if(e.target.id === "confirmOverlay") closeConfirm(); });
+document.getElementById("confirmYes").addEventListener("click", ()=>{
+  if(pendingDeleteIdx == null) return;
+  const products = getProducts(currentStallId);
+  products.splice(pendingDeleteIdx, 1);
+  saveProducts(currentStallId, products);
+  closeConfirm();
+  renderProducts();
+  renderCrates();
+});
+
 function renderProfile(){
   const p = getProfile(currentStallId);
-  document.getElementById('prOwner').value = p.owner;
-  document.getElementById('prAbout').value = p.about;
-  document.getElementById('prAddress').value = p.address;
-  document.getElementById('prHours').value = p.hours;
+  document.getElementById("prName").value = p.name || "";
+  document.getElementById("prOwner").value = p.owner || "";
+  document.getElementById("prCategory").value = p.category || "Outros";
+  document.getElementById("prAbout").value = p.about || "";
+  document.getElementById("prAddress").value = p.address || "";
+  document.getElementById("prHours").value = p.hours || "";
 }
-document.getElementById('profileForm').addEventListener('submit', (e)=>{
+document.getElementById("profileForm").addEventListener("submit", (e)=>{
   e.preventDefault();
   const data = {
-    owner: document.getElementById('prOwner').value.trim(),
-    about: document.getElementById('prAbout').value.trim(),
-    address: document.getElementById('prAddress').value.trim(),
-    hours: document.getElementById('prHours').value.trim(),
+    name: document.getElementById("prName").value.trim(),
+    owner: document.getElementById("prOwner").value.trim(),
+    category: document.getElementById("prCategory").value,
+    about: document.getElementById("prAbout").value.trim(),
+    address: document.getElementById("prAddress").value.trim(),
+    hours: document.getElementById("prHours").value.trim()
   };
   saveProfile(currentStallId, data);
-  const toast = document.getElementById('saveToast');
-  toast.classList.add('show');
-  setTimeout(()=> toast.classList.remove('show'), 1800);
+  const custom = getCustomStalls();
+  const idx = custom.findIndex(s => s.id === currentStallId);
+  if(idx >= 0){
+    custom[idx] = { ...custom[idx], ...data };
+    saveCustomStalls(custom);
+  }
+  document.getElementById("stallHeadline").textContent = (data.name || "Sua barraca") + " — gerencie o dia da feira.";
+  const toast = document.getElementById("saveToast");
+  toast.classList.add("show");
+  setTimeout(()=> toast.classList.remove("show"), 1800);
 });
+
+document.addEventListener("keydown", (e)=>{
+  if(e.key === "Escape"){
+    closeEdit();
+    closeConfirm();
+  }
+});
+
+(function boot(){
+  const session = readSession();
+  if(session && session.stallId){
+    enterApp(session.stallId, session.email);
+  }
+})();
 </script>
 </body>
 </html>
